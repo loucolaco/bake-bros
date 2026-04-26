@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bake Bros | The Brotherhood of Cookies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Nunito:wght@900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-brand-orange: #E04E1D; 
+      --color-butter: #FDF3E3;       
+      --color-white: #FFFFFF;        
+      --color-text-dark: #3B1F0E;    
+      --font-display: 'Nunito', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --radius-lg: 30px;
+      --spring-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--color-butter);
+      color: var(--color-text-dark);
+      font-family: var(--font-body);
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: var(--paper-texture);
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; margin: 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; }
+
+    nav {
+      position: fixed;
+      top: 0; width: 100%; z-index: 1000;
+      padding: 25px 0;
+      transition: all 0.4s var(--spring-bounce);
+    }
+    nav.scrolled {
+      background-color: var(--color-brand-orange);
+      padding: 15px 0;
+      box-shadow: 0 10px 30px rgba(224, 78, 29, 0.3);
+    }
+    nav.scrolled .logo, nav.scrolled .nav-links a, nav.scrolled .lang-switch { color: var(--color-white); }
+    nav.scrolled .nav-cta { background: var(--color-white); color: var(--color-brand-orange); box-shadow: 0 4px 0 #ddd; }
+
+    .nav-container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.8rem; color: var(--color-brand-orange); letter-spacing: -1px; text-transform: uppercase; font-family: var(--font-display); text-decoration: none; }
+    .nav-right { display: flex; align-items: center; gap: 30px; }
+    
+    .nav-links { display: flex; gap: 25px; }
+    .nav-links a { 
+      font-weight: 800; 
+      text-transform: uppercase; 
+      font-size: 0.8rem; 
+      transition: 0.3s; 
+      text-decoration: none; 
+      color: var(--color-text-dark);
+      letter-spacing: 0.5px;
+    }
+    .nav-links a:hover { color: var(--color-brand-orange); transform: translateY(-2px); }
+    nav.scrolled .nav-links a:hover { opacity: 0.8; color: var(--color-white); }
+    
+    .lang-switch {
+      font-weight: 900;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      gap: 5px;
+      color: var(--color-brand-orange);
+      text-transform: uppercase;
+    }
+    .lang-switch span.active { text-decoration: underline; }
+
+    .nav-cta {
+      background-color: var(--color-brand-orange);
+      color: var(--color-white);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 900;
+      box-shadow: 0 4px 0 #b03a13;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #b03a13; }
+
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(circle, #fff 0%, var(--color-butter) 100%);
+      padding: 120px 20px 80px 20px; /* Mais espaço no topo e base para evitar o aspeto espalmado */
+    }
+
+    .hero-logo {
+      width: 160px; /* Tamanho ajustado para não dominar a secção */
+      height: auto;
+      margin-bottom: 30px;
+      filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.05));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 8vw, 6rem); /* Ligeiro ajuste na escala */
+      line-height: 1.1; /* Aumentado para evitar letras sobrepostas */
+      color: var(--color-brand-orange);
+      transform: rotate(-1.5deg);
+      filter: drop-shadow(4px 4px 0px var(--color-white)) drop-shadow(8px 8px 0px rgba(224, 78, 29, 0.1));
+      margin-top: 15px;
+      margin-bottom: 25px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      margin-top: 20px;
+      font-weight: 600;
+      max-width: 550px; /* Largura restrita para melhor legibilidade */
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .ticker-wrap {
+      background: var(--color-brand-orange);
+      color: var(--color-white);
+      padding: 15px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transform: rotate(-1deg);
+      width: 110%;
+      margin-left: -5%;
+      z-index: 10;
+      position: relative;
+      border-top: 4px solid var(--color-text-dark);
+      border-bottom: 4px solid var(--color-text-dark);
+    }
+    .ticker { display: inline-block; animation: ticker 25s linear infinite; font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; text-transform: uppercase; }
+
+    .story-section {
+      background-color: var(--color-text-dark);
+      padding: 140px 0;
+      color: var(--color-white);
+      position: relative;
+    }
+    .story-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 80px; align-items: center; }
+    .funky-image-frame {
+      background: var(--color-brand-orange);
+      padding: 15px;
+      border-radius: 20px;
+      transform: rotate(3deg);
+      box-shadow: 15px 15px 0 var(--color-butter);
+      overflow: hidden;
+      display: flex;
+    }
+    .story-img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .menu-section { padding: 120px 0; background: var(--color-butter); }
+    .section-tag {
+      background: var(--color-brand-orange);
+      color: var(--color-white);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: 900;
+      display: inline-block;
+      margin-bottom: 15px;
+      transform: rotate(-2deg);
+      font-size: 0.9rem;
+    }
+
+    .tab-btn {
+      padding: 15px 35px;
+      border: 3px solid var(--color-text-dark);
+      background: var(--color-white);
+      color: var(--color-text-dark);
+      font-weight: 900;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 0 8px;
+      box-shadow: 6px 6px 0px var(--color-text-dark);
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--color-brand-orange);
+      color: var(--color-white);
+      transform: translate(4px, 4px);
+      box-shadow: 0px 0px 0px var(--color-text-dark);
+    }
+
+    .cookie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 35px; margin-top: 60px; }
+    .cookie-card {
+      background: var(--white);
+      padding: 25px;
+      border-radius: 24px;
+      border: 3px solid var(--color-text-dark);
+      box-shadow: 10px 10px 0px var(--color-brand-orange);
+      text-align: center;
+      transition: 0.3s var(--spring-bounce);
+    }
+    .cookie-card:hover { transform: translateY(-10px) rotate(1deg); }
+    .cookie-card img.cookie-thumb {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      border: 2px solid var(--color-text-dark);
+    }
+    .cookie-card h3 { font-size: 1.4rem; color: var(--color-brand-orange); margin-bottom: 12px; }
+    .cookie-card p { font-size: 0.9rem; font-weight: 500; min-height: 40px; }
+    .price-circle {
+      background: var(--color-text-dark);
+      color: var(--color-white);
+      width: 60px; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-weight: 900;
+      margin: 15px auto 0;
+      border: 2px solid var(--color-brand-orange);
+    }
+
+    .visit-card {
+      background: var(--color-brand-orange);
+      color: var(--color-white);
+      padding: 60px 40px;
+      border-radius: 40px;
+      border: 4px solid var(--color-text-dark);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .visit-info { position: relative; z-index: 2; }
+    .visit-image {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 3px solid var(--color-text-dark);
+      box-shadow: 10px 10px 0px var(--color-text-dark);
+    }
+    .visit-card::after {
+      content: "Bros";
+      position: absolute;
+      right: -20px; bottom: -20px;
+      font-size: 10rem;
+      font-family: var(--font-display);
+      opacity: 0.1;
+      font-weight: 900;
+      z-index: 1;
+    }
+
+    footer { background: var(--color-text-dark); color: var(--color-white); padding: 80px 0 40px; text-align: center; }
+    .footer-logo { font-size: 3rem; color: var(--color-brand-orange); font-family: var(--font-display); font-weight: 900; }
+
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    @media (max-width: 992px) {
+      .nav-links { display: none; } 
+      .visit-card { grid-template-columns: 1fr; padding: 40px 20px; }
+      .visit-image { min-height: 250px; }
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 3.2rem; }
+      .hero-logo { width: 120px; }
+      .hero-section { padding-top: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="container nav-container">
+      <a href="#" class="logo">Bake Bros 🍪</a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#story" data-key="nav-story">Os Irmãos</a>
+          <a href="#menu" data-key="nav-menu">Menu Real</a>
+          <a href="#visit" data-key="nav-visit">No Saldanha</a>
+        </div>
+        <div class="lang-switch" onclick="toggleLanguage()">
+          <span id="lang-pt" class="active">PT</span>|<span id="lang-en">EN</span>
+        </div>
+        <a href="https://www.ubereats.com/pt/store/bake-bros-cookies/fTgv0AocTZOXAgnBR8K6Jw" target="_blank" class="nav-cta" data-key="cta-order">Pedir Agora</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="container">
+      <img src="IMG_7231.jpg" alt="Bake Bros Logo" class="hero-logo">
+      <div style="display: block;">
+        <span class="section-tag" data-key="hero-tag">Directamente do Saldanha</span>
+      </div>
+      <h1 class="hero-title" data-key="hero-title">Take a bite.<br>Join the brotherhood.</h1>
+      <p class="hero-subtitle" data-key="hero-sub">Esquece tudo o que sabes sobre cookies. A receita que levou 60 tentativas para ser perfeita está à tua espera.</p>
+      <div style="margin-top: 50px;">
+        <a href="#menu" class="nav-cta" style="font-size: 1.1rem; padding: 18px 45px; background: var(--color-text-dark); box-shadow: 0 6px 0 var(--color-brand-orange);" data-key="hero-btn">Explorar o Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker-text">
+      60 tentativas até à perfeição • Baked by brothers • No shortcuts, just cookies • Saldanha's best kept secret • 
+    </div>
+  </div>
+
+  <section id="story" class="story-section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="funky-image-frame">
+          <img src="IMG_7223.jpg" alt="Bake Bros" class="story-img">
+        </div>
+        <div>
+          <h2 style="font-size: 3rem; margin-bottom: 25px; color: var(--color-brand-orange);" data-key="story-title">2 Irmãos. 1 Obsessão.</h2>
+          <p style="font-size: 1.2rem; line-height: 1.8;" data-key="story-p">Não somos uma fábrica. Somos uma irmandade. Cada cookie Bake Bros nasce de uma jornada de **60 ensaios** onde testámos cada grama de chocolate e cada segundo de forno. O resultado? Uma textura que Lisboa nunca viu.</p>
+          <p style="font-size: 1.1rem; color: var(--color-brand-orange); font-weight: 700; margin-top: 20px;" data-key="story-footer">Artesanal de verdade. Feito por nós, para ti.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="menu-section">
+    <div class="container" style="text-align: center;">
+      <span class="section-tag" style="background: var(--color-text-dark);" data-key="menu-tag">O Nosso Menu Real</span>
+      <h2 style="font-size: 3.5rem; color: var(--color-brand-orange); margin-bottom: 50px;" data-key="menu-title">Escolhe a tua arma</h2>
+      
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="openTab(event, 'singles')" data-key="tab-singles">Individuais</button>
+        <button class="tab-btn" onclick="openTab(event, 'boxes')" data-key="tab-boxes">As Caixas Bros</button>
+      </div>
+
+      <div id="singles" class="tab-pane active" style="display: block;">
+        <div class="cookie-grid" id="cookie-list"></div>
+      </div>
+
+      <div id="boxes" class="tab-pane" style="display: none; margin-top: 60px;">
+        <div class="cookie-grid" id="box-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" style="padding: 100px 0;">
+    <div class="container">
+      <div class="visit-card">
+        <div class="visit-info">
+          <h2 style="font-size: 3.5rem; margin-bottom: 10px;" data-key="visit-title">Vem ao Quartel-General</h2>
+          <p style="font-size: 1.5rem; margin-bottom: 30px;" data-key="visit-sub">Estamos no coração do Saldanha à tua espera.</p>
+          <p style="font-weight: 700;">📍 Av. Casal Ribeiro 53b, Lisboa</p>
+          <p data-key="visit-hours">Seg-Sex: 9:30 — 20:00 | Sáb: 11:00 — 20:00 | Dom: 11:00 — 16:00</p>
+          
+          <div style="margin-top: 40px;">
+             <p style="font-weight: 900; text-transform: uppercase; margin-bottom: 20px;" data-key="delivery-title">Pedir em Casa:</p>
+             <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+               <a href="https://www.ubereats.com/pt/store/bake-bros-cookies/fTgv0AocTZOXAgnBR8K6Jw" target="_blank" class="nav-cta" style="background: var(--color-text-dark);">Uber Eats</a>
+               <a href="https://food.bolt.eu/en/386-lisbon/p/114257-bake-bros-cookies/" target="_blank" class="nav-cta" style="background: var(--color-text-dark);">Bolt Food</a>
+               <a href="https://glovoapp.com/pt/pt/lisboa/stores/bake-bros-cookies-lis" target="_blank" class="nav-cta" style="background: var(--color-text-dark);">Glovo</a>
+             </div>
+          </div>
+
+          <div style="margin-top: 40px; display: flex; gap: 20px; flex-wrap: wrap;">
+            <a href="https://instagram.com/bakebros_pt" target="_blank" class="nav-cta" style="background: var(--color-white); color: var(--color-brand-orange);" data-key="visit-insta">Seguir os Bros</a>
+          </div>
+        </div>
+        <img src="loja.jpg" alt="A nossa loja no Saldanha" class="visit-image">
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-logo">BAKE BROS</div>
+      <p style="font-weight: 700; margin-top: 10px; opacity: 0.8;" data-key="footer-sub">The Brotherhood of Artisan Cookies</p>
+      <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; font-size: 0.8rem; opacity: 0.6;" data-key="footer-copy">
+        © 2026 BAKE BROS LISBOA. SEM ATALHOS DESDE O DIA 1.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLang = 'pt';
+    const translations = {
+      pt: {
+        "nav-story": "Os Irmãos", "nav-menu": "Menu Real", "nav-visit": "No Saldanha", "cta-order": "Pedir Agora",
+        "hero-tag": "Directamente do Saldanha", "hero-title": "Take a bite.<br>Join the brotherhood.",
+        "hero-sub": "Esquece tudo o que sabes sobre cookies. A receita que levou 60 tentativas para ser perfeita está à tua espera.",
+        "hero-btn": "Explorar o Menu", "ticker": "60 tentativas até à perfeição • Baked by brothers • No shortcuts, just cookies • Saldanha's best kept secret • ",
+        "story-title": "2 Irmãos. 1 Obsessão.", "story-p": "Não somos uma fábrica. Somos uma irmandade. Cada cookie Bake Bros nasce de uma jornada de **60 ensaios** onde testámos cada grama de chocolate e cada segundo de forno. O resultado? Uma textura que Lisboa nunca viu.",
+        "story-footer": "Artesanal de verdade. Feito por nós, para ti.", "menu-tag": "O Nosso Menu Real", "menu-title": "Escolhe a tua arma",
+        "tab-singles": "Individuais", "tab-boxes": "As Caixas Bros",
+        "visit-title": "Vem ao Quartel-General", "visit-sub": "Estamos no coração do Saldanha à tua espera.",
+        "visit-hours": "Seg-Sex: 9:30 — 20:00 | Sáb: 11:00 — 20:00 | Dom: 11:00 — 16:00", 
+        "delivery-title": "Pedir em Casa:", "visit-insta": "Seguir os Bros",
+        "footer-sub": "The Brotherhood of Artisan Cookies", "footer-copy": "© 2026 BAKE BROS LISBOA. SEM ATALHOS DESDE O DIA 1.",
+        cookies: [
+          {name: "Clássica", desc: "Onde a irmandade começou.", price: "3,50€", img: "IMG_7224.jpg"},
+          {name: "Miso", desc: "O segredo salgado dos Bros.", price: "4,00€", img: "IMG_7225.jpg"},
+          {name: "Caramelo Salgado", desc: "Para quem não tem medo de ser feliz.", price: "3,80€", img: "IMG_7226.jpg"},
+          {name: "Matcha", desc: "Equilíbrio e energia em cada dentada.", price: "4,20€", img: "IMG_7227.jpg"},
+          {name: "Midnight", desc: "O lado obscuro do cacau.", price: "3,95€", img: "IMG_7228.jpg"},
+          {name: "Peanut Butter + Jam", desc: "Cremosa, rica e artesanal.", price: "4,30€", img: "IMG_7229.jpg"},
+          {name: "Brokie", desc: "A fusão definitiva: Brownie + Cookie.", price: "4,20€", img: "IMG_7230.jpg"}
+        ],
+        boxes: [
+          {name: "Bros Pack (6)", desc: "A melhor forma de conhecer a família.", price: "24,50€", img: "caixa6.webp"},
+          {name: "Family Pack (10)", desc: "Para quem leva a irmandade a sério.", price: "36,50€", img: "caixa10.jpeg"}
+        ]
+      },
+      en: {
+        "nav-story": "The Brothers", "nav-menu": "Real Menu", "nav-visit": "At Saldanha", "cta-order": "Order Now",
+        "hero-tag": "Straight from Saldanha", "hero-title": "Take a bite.<br>Join the brotherhood.",
+        "hero-sub": "Forget everything you know about cookies. The recipe that took 60 attempts to be perfect is waiting for you.",
+        "hero-btn": "Explore Menu", "ticker": "60 attempts until perfection • Baked by brothers • No shortcuts, just cookies • Saldanha's best kept secret • ",
+        "story-title": "2 Brothers. 1 Obsession.", "story-p": "We are not a factory. We are a brotherhood. Every Bake Bros cookie is born from a journey of **60 trials** where we tested every gram of chocolate and every second in the oven. The result? A texture Lisbon has never seen.",
+        "story-footer": "Truly artisanal. Made by us, for you.", "menu-tag": "Our Real Menu", "menu-title": "Pick your weapon",
+        "tab-singles": "Singles", "tab-boxes": "Bros Boxes",
+        "visit-title": "Come to HQ", "visit-sub": "We are waiting for you in the heart of Saldanha.",
+        "visit-hours": "Mon-Fri: 9:30am — 8:00pm | Sat: 11:00am — 8:00pm | Sun: 11:00am — 4:00pm", 
+        "delivery-title": "Order Home:", "visit-insta": "Follow the Bros",
+        "footer-sub": "The Brotherhood of Artisan Cookies", "footer-copy": "© 2026 BAKE BROS LISBOA. NO SHORTCUTS SINCE DAY 1.",
+        cookies: [
+          {name: "Classic", desc: "Where the brotherhood started.", price: "3,50€", img: "IMG_7224.jpg"},
+          {name: "Miso", desc: "The Bros' salty secret.", price: "4,00€", img: "IMG_7225.jpg"},
+          {name: "Salted Caramel", desc: "For those who aren't afraid to be happy.", price: "3,80€", img: "IMG_7226.jpg"},
+          {name: "Matcha", desc: "Balance and energy in every bite.", price: "4,20€", img: "IMG_7227.jpg"},
+          {name: "Midnight", desc: "The dark side of cocoa.", price: "3,95€", img: "IMG_7228.jpg"},
+          {name: "Peanut Butter + Jam", desc: "Creamy, rich and artisanal.", price: "4,30€", img: "IMG_7229.jpg"},
+          {name: "Brokie", desc: "The ultimate fusion: Brownie + Cookie.", price: "4,20€", img: "IMG_7230.jpg"}
+        ],
+        boxes: [
+          {name: "Bros Pack (6)", desc: "The best way to meet the family.", price: "24,50€", img: "caixa6.webp"},
+          {name: "Family Pack (10)", desc: "For those who take brotherhood seriously.", price: "36,50€", img: "caixa10.jpeg"}
+        ]
+      }
+    };
+
+    function updateContent() {
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        if(translations[currentLang][key]) el.innerHTML = translations[currentLang][key];
+      });
+      const tickerText = translations[currentLang].ticker;
+      document.getElementById('ticker-text').innerHTML = tickerText + tickerText;
+      document.getElementById('cookie-list').innerHTML = translations[currentLang].cookies.map(c => `
+        <div class="cookie-card">
+          <img src="${c.img}" alt="${c.name}" class="cookie-thumb">
+          <h3>${c.name}</h3>
+          <p>${c.desc}</p>
+          <div class="price-circle">${c.price}</div>
+        </div>
+      `).join('');
+      document.getElementById('box-list').innerHTML = translations[currentLang].boxes.map(b => `
+        <div class="cookie-card" style="border-style: dashed;">
+          <img src="${b.img}" alt="${b.name}" class="cookie-thumb">
+          <h3>${b.name}</h3>
+          <p>${b.desc}</p>
+          <div class="price-circle" style="width: 80px; border-radius: 10px;">${b.price}</div>
+        </div>
+      `).join('');
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'pt' ? 'en' : 'pt';
+      document.getElementById('lang-pt').classList.toggle('active');
+      document.getElementById('lang-en').classList.toggle('active');
+      updateContent();
+    }
+
+    window.onscroll = function() {
+      const nav = document.getElementById('navbar');
+      if (window.pageYOffset > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+
+    function openTab(evt, tabName) {
+      const panes = document.getElementsByClassName("tab-pane");
+      for (let p of panes) p.style.display = "none";
+      const btns = document.getElementsByClassName("tab-btn");
+      for (let b of btns) b.classList.remove("active");
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.classList.add("active");
+    }
+    updateContent();
+  </script>
+</body>
+</html>
