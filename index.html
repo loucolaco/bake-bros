@@ -11,8 +11,8 @@
   <style>
     :root {
       --color-brand-orange: #E04E1D; 
-      --color-butter: #FDF3E3;       
-      --color-white: #FFFFFF;        
+      --color-butter: #FDF3E3;        
+      --color-white: #FFFFFF;         
       --color-text-dark: #3B1F0E;    
       --font-display: 'Nunito', sans-serif;
       --font-body: 'Inter', sans-serif;
@@ -107,11 +107,11 @@
       justify-content: center;
       text-align: center;
       background: radial-gradient(circle, #fff 0%, var(--color-butter) 100%);
-      padding: 120px 20px 80px 20px; /* Mais espaço no topo e base para evitar o aspeto espalmado */
+      padding: 120px 20px 80px 20px;
     }
 
     .hero-logo {
-      width: 160px; /* Tamanho ajustado para não dominar a secção */
+      width: 160px;
       height: auto;
       margin-bottom: 30px;
       filter: drop-shadow(5px 5px 0px rgba(0,0,0,0.05));
@@ -123,8 +123,8 @@
     }
 
     .hero-title {
-      font-size: clamp(2.5rem, 8vw, 6rem); /* Ligeiro ajuste na escala */
-      line-height: 1.1; /* Aumentado para evitar letras sobrepostas */
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      line-height: 1.1;
       color: var(--color-brand-orange);
       transform: rotate(-1.5deg);
       filter: drop-shadow(4px 4px 0px var(--color-white)) drop-shadow(8px 8px 0px rgba(224, 78, 29, 0.1));
@@ -136,7 +136,7 @@
       font-size: clamp(1.1rem, 2vw, 1.3rem);
       margin-top: 20px;
       font-weight: 600;
-      max-width: 550px; /* Largura restrita para melhor legibilidade */
+      max-width: 550px;
       margin-left: auto;
       margin-right: auto;
       line-height: 1.6;
@@ -280,6 +280,9 @@
       z-index: 1;
     }
 
+    .map-link { color: inherit; text-decoration: none; }
+    .map-link:hover { text-decoration: underline; }
+
     footer { background: var(--color-text-dark); color: var(--color-white); padding: 80px 0 40px; text-align: center; }
     .footer-logo { font-size: 3rem; color: var(--color-brand-orange); font-family: var(--font-display); font-weight: 900; }
 
@@ -359,6 +362,7 @@
       <div class="tabs-container">
         <button class="tab-btn active" onclick="openTab(event, 'singles')" data-key="tab-singles">Individuais</button>
         <button class="tab-btn" onclick="openTab(event, 'boxes')" data-key="tab-boxes">As Caixas Bros</button>
+        <button class="tab-btn" onclick="openTab(event, 'drinks')" data-key="tab-drinks">Bebidas</button>
       </div>
 
       <div id="singles" class="tab-pane active" style="display: block;">
@@ -367,6 +371,10 @@
 
       <div id="boxes" class="tab-pane" style="display: none; margin-top: 60px;">
         <div class="cookie-grid" id="box-list"></div>
+      </div>
+
+      <div id="drinks" class="tab-pane" style="display: none; margin-top: 60px;">
+        <div class="cookie-grid" id="drink-list"></div>
       </div>
     </div>
   </section>
@@ -377,7 +385,9 @@
         <div class="visit-info">
           <h2 style="font-size: 3.5rem; margin-bottom: 10px;" data-key="visit-title">Vem ao Quartel-General</h2>
           <p style="font-size: 1.5rem; margin-bottom: 30px;" data-key="visit-sub">Estamos no coração do Saldanha à tua espera.</p>
-          <p style="font-weight: 700;">📍 Av. Casal Ribeiro 53b, Lisboa</p>
+          <p style="font-weight: 700;">
+            <a href="https://www.google.com/maps/place/Bake+Bros+Cookies/@38.7325198,-9.1456937,17z/data=!3m1!4b1!4m6!3m5!1s0xd1933feb3c9909b:0xdca7e6603ce04c3a!8m2!3d38.7325198!4d-9.1431188!16s%2Fg%2F11v_1478zm?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">📍 Av. Casal Ribeiro 53b, Lisboa</a>
+          </p>
           <p data-key="visit-hours">Seg-Sex: 9:30 — 20:00 | Sáb: 11:00 — 20:00 | Dom: 11:00 — 16:00</p>
           
           <div style="margin-top: 40px;">
@@ -418,7 +428,7 @@
         "hero-btn": "Explorar o Menu", "ticker": "60 tentativas até à perfeição • Baked by brothers • No shortcuts, just cookies • Saldanha's best kept secret • ",
         "story-title": "2 Irmãos. 1 Obsessão.", "story-p": "Não somos uma fábrica. Somos uma irmandade. Cada cookie Bake Bros nasce de uma jornada de **60 ensaios** onde testámos cada grama de chocolate e cada segundo de forno. O resultado? Uma textura que Lisboa nunca viu.",
         "story-footer": "Artesanal de verdade. Feito por nós, para ti.", "menu-tag": "O Nosso Menu Real", "menu-title": "Escolhe a tua arma",
-        "tab-singles": "Individuais", "tab-boxes": "As Caixas Bros",
+        "tab-singles": "Individuais", "tab-boxes": "As Caixas Bros", "tab-drinks": "Bebidas",
         "visit-title": "Vem ao Quartel-General", "visit-sub": "Estamos no coração do Saldanha à tua espera.",
         "visit-hours": "Seg-Sex: 9:30 — 20:00 | Sáb: 11:00 — 20:00 | Dom: 11:00 — 16:00", 
         "delivery-title": "Pedir em Casa:", "visit-insta": "Seguir os Bros",
@@ -435,6 +445,12 @@
         boxes: [
           {name: "Bros Pack (6)", desc: "A melhor forma de conhecer a família.", price: "24,50€", img: "caixa6.webp"},
           {name: "Family Pack (10)", desc: "Para quem leva a irmandade a sério.", price: "36,50€", img: "caixa10.jpeg"}
+        ],
+        drinks: [
+          {name: "Iced Latte", desc: "Refrescante e equilibrado.", price: "3,80€", img: "IMG_7276.jpg"},
+          {name: "Mango Matcha", desc: "A doçura da manga com o poder do matcha.", price: "4,50€", img: "IMG_7277.jpg"},
+          {name: "Strawberry Matcha", desc: "Fusão perfeita de fruta e energia.", price: "4,50€", img: "IMG_7278.jpg"},
+          {name: "Café", desc: "O par ideal para a tua cookie.", price: "1,20€", img: "IMG_7279.jpg"}
         ]
       },
       en: {
@@ -444,7 +460,7 @@
         "hero-btn": "Explore Menu", "ticker": "60 attempts until perfection • Baked by brothers • No shortcuts, just cookies • Saldanha's best kept secret • ",
         "story-title": "2 Brothers. 1 Obsession.", "story-p": "We are not a factory. We are a brotherhood. Every Bake Bros cookie is born from a journey of **60 trials** where we tested every gram of chocolate and every second in the oven. The result? A texture Lisbon has never seen.",
         "story-footer": "Truly artisanal. Made by us, for you.", "menu-tag": "Our Real Menu", "menu-title": "Pick your weapon",
-        "tab-singles": "Singles", "tab-boxes": "Bros Boxes",
+        "tab-singles": "Singles", "tab-boxes": "Bros Boxes", "tab-drinks": "Drinks",
         "visit-title": "Come to HQ", "visit-sub": "We are waiting for you in the heart of Saldanha.",
         "visit-hours": "Mon-Fri: 9:30am — 8:00pm | Sat: 11:00am — 8:00pm | Sun: 11:00am — 4:00pm", 
         "delivery-title": "Order Home:", "visit-insta": "Follow the Bros",
@@ -461,6 +477,12 @@
         boxes: [
           {name: "Bros Pack (6)", desc: "The best way to meet the family.", price: "24,50€", img: "caixa6.webp"},
           {name: "Family Pack (10)", desc: "For those who take brotherhood seriously.", price: "36,50€", img: "caixa10.jpeg"}
+        ],
+        drinks: [
+          {name: "Iced Latte", desc: "Refreshing and balanced.", price: "3,80€", img: "IMG_7276.jpg"},
+          {name: "Mango Matcha", desc: "Mango sweetness meets matcha power.", price: "4,50€", img: "IMG_7277.jpg"},
+          {name: "Strawberry Matcha", desc: "Perfect fusion of fruit and energy.", price: "4,50€", img: "IMG_7278.jpg"},
+          {name: "Coffee", desc: "The ideal pair for your cookie.", price: "1,20€", img: "IMG_7279.jpg"}
         ]
       }
     };
@@ -486,6 +508,14 @@
           <h3>${b.name}</h3>
           <p>${b.desc}</p>
           <div class="price-circle" style="width: 80px; border-radius: 10px;">${b.price}</div>
+        </div>
+      `).join('');
+      document.getElementById('drink-list').innerHTML = translations[currentLang].drinks.map(d => `
+        <div class="cookie-card">
+          <img src="${d.img}" alt="${d.name}" class="cookie-thumb">
+          <h3>${d.name}</h3>
+          <p>${d.desc}</p>
+          <div class="price-circle">${d.price}</div>
         </div>
       `).join('');
     }
